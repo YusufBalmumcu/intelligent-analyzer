@@ -1,2 +1,2 @@
 # intelligent-analyzer
-intelligent analyzer
+Intelligent Analyzer
