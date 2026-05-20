@@ -171,4 +171,7 @@ poetry.toml
 pyrightconfig.json
 
 pdfs/*
+pdfs1/*
+pdfs2/*
+pdfs3/*
 models/*

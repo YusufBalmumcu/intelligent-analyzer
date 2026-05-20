@@ -11,7 +11,8 @@ model_paths = {
     "distiluse-base-multilingual-cased-v1": "models\distiluse-base-multilingual-cased-v1",
     "multilingual-e5-small": "models\multilingual-e5-small",
     "nomic-embed-text-v1.5": "models\nomic-embed-text-v1.5",
-    "nomic-embed-text-v2-moe": "models\nomic-embed-text-v2-moe"
+    "nomic-embed-text-v2-moe": "models\nomic-embed-text-v2-moe",
+    "qwen3-0.6B": "models\Qwen3-Embedding-0.6B"
 }
 
 # Listing and choosing models

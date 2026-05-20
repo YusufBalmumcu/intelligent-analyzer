@@ -13,6 +13,20 @@ class Embedder:
         duration = time.time() - start
         print(f"Model loaded in {duration:.2f} seconds from {model_path}")
 
+    def set_max_seq_length(self, max_len: int):
+        """
+        Sets the maximum token length for input sequences.
+        Works for all SentenceTransformer-compatible models.
+        """
+        self.max_seq_length = max_len
+        self.model.max_seq_length = max_len
+
+        # Ensure tokenizer truncates to the same length
+        if hasattr(self.tokenizer, "model_max_length"):
+            self.tokenizer.model_max_length = max_len
+
+        print(f"max_seq_length has been set to {max_len} tokens.")
+
 
     def calculate(self, data: str | list[str], task_type=None) -> np.ndarray:
         """
@@ -74,6 +88,7 @@ class Embedder:
         if normalize_result:
             prod_embedding = self.normalize(prod_embedding[np.newaxis, :])[0]
         return prod_embedding
+
 
     @staticmethod
     def cosine_similarity(vec1: np.ndarray, vec2: np.ndarray) -> float:

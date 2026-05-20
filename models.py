@@ -251,6 +251,47 @@ class nomic_embed_text_v2_moe(Embedder):
 
 
 
+class qwen_3_06(Embedder):
+    def __init__(self):
+        # Model yolu
+        model_path = r"models\Qwen3-Embedding-0.6B"
+        # Qwen mimarisi genellikle remote code güveni gerektirir
+        super().__init__(model_path, trust_remote_code=True)
 
+    def _prepare_for_task(self, data, task_type):
+        kwargs = {}
+
+        # 1. Retrieval tasks (Genellikle query/doc ayrımı kritiktir)
+        if task_type == TASK_TYPE.RETRIEVAL_DOCUMENT:
+            kwargs["prompt_name"] = "document"
+        elif task_type == TASK_TYPE.RETRIEVAL_QUERY:
+            kwargs["prompt_name"] = "query"
+
+        # 2. Unsupported/Generic tasks - Custom Prompts
+        # Qwen embedding modelleri instruct-tuned ise bu promptlar performansı artırabilir.
+        elif task_type == TASK_TYPE.SEMANTIC_SIMILARITY:
+            kwargs["prompt"] = "semantic similarity: "
+            print(f"[Warning] Task {task_type.name} not directly supported. Using custom prompt.")
+        elif task_type == TASK_TYPE.CLASSIFICATION:
+            kwargs["prompt"] = "classification: "
+            print(f"[Warning] Task {task_type.name} not directly supported. Using custom prompt.")
+        elif task_type == TASK_TYPE.CLUSTERING:
+            kwargs["prompt"] = "clustering: "
+            print(f"[Warning] Task {task_type.name} not directly supported. Using custom prompt.")
+        elif task_type == TASK_TYPE.CODE_RETRIEVAL_QUERY:
+            kwargs["prompt"] = "code retrieval query: "
+            print(f"[Warning] Task {task_type.name} not directly supported. Using custom prompt.")
+        elif task_type == TASK_TYPE.QUESTION_ANSWERING:
+            kwargs["prompt"] = "question answering: "
+            print(f"[Warning] Task {task_type.name} not directly supported. Using custom prompt.")
+        elif task_type == TASK_TYPE.FACT_VERIFICATION:
+            kwargs["prompt"] = "fact verification: "
+            print(f"[Warning] Task {task_type.name} not directly supported. Using custom prompt.")
+
+        # 3. Unknown tasks
+        else:
+            print(f"[Warning] Unknown task {task_type.name}. Using default embeddings.")
+
+        return data, kwargs
 
 
